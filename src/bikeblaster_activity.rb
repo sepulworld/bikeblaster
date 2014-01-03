@@ -10,35 +10,18 @@ class BikeblasterActivity
   def onCreate(bundle)
     super
     
-    java_file = java.io.File.new('/mnt/sdcard/jruby/media/MissleLaunch.mp3')
-    uri = Uri.fromFile(java_file)
-    @player = MediaPlayer.create(self, uri)
-
-    @listener = proc { AudioFocus.new
-    context = getApplicationContext
-    audio_manager = context.getSystemService(Context::AUDIO_SERVICE)
-
-    audio_manager.requestAudioFocus(@listener, AudioManger::STREAM_MUSIC, AudioManager::AUDIOFOCUS_GAIN)
-    @player.start }
-
-  rescue Exception => e
-    puts "#{ e } (#{ e.class } #{e.message} #{e.backtrace.inspect} )!"
-      end
-  
-  def on_touch_event(event)
-    @player.stop
-    true
-  end
     
     set_title 'Bike Blaster!'
 
     self.content_view =
         linear_layout :orientation => :vertical do
-          @text_view = text_view :text => 'Missle Ready', :id => 42, :width => :match_parent,
+          @text_view = text_view :text => 'Bike Laser', :id => 42, :width => :match_parent,
                                  :gravity => :center, :text_size => 48.0
-          button :text => 'Bike Blaster Fire', :width => :match_parent, :id => 43, :on_click_listener => proc { fire }
-          button :text => 'Bike Blaster Reload', :width => :match_parent, :id => 44, :on_click_listener => proc { reload }
+          button :text => 'Bike Blaster Light Laser', :width => :match_parent, :id => 43, :on_click_listener => proc { fire_light_laser }
+          button :text => 'Bike Blaster Heavy Laser', :width => :match_parent, :id => 43, :on_click_listener => proc { fire_heavy_laser }
+          button :text => 'Bike Blaster Recharge', :width => :match_parent, :id => 44, :on_click_listener => proc { recharge }
 	end
+ 
   rescue Exception
     puts "Exception creating activity: #{$!}"
     puts $!.backtrace.join("\n")
@@ -46,25 +29,38 @@ class BikeblasterActivity
 
   private
 
-  def fire
-    @text_view.text = 'BOOM!'
-    toast 'Missle launched'
+  def fire_light_laser
+    light_laser = $package.R::raw::lasershot2
+    laser  = $package.R::raw::megalazer
+    @player = MediaPlayer.create(self, light_laser)
+    @player.start
+
+    @text_view.text = 'Light Laser!'
+    toast 'Firing light laser'
+    rescue Exception => e
+      puts "#{ e } (#{ e.class } #{e.message} #{e.backtrace.inspect} )!"
+  end
+  
+  def fire_heavy_laser
+    heavy_laser  = $package.R::raw::megalazer
+    @player = MediaPlayer.create(self, heavy_laser)
+    @player.start
+
+    @text_view.text = 'Heavy Laser!'
+    toast 'Firing heavy laser'
+    rescue Exception => e
+      puts "#{ e } (#{ e.class } #{e.message} #{e.backtrace.inspect} )!"
   end
 
-  def reload
-    @text_view.text = 'Missle Reloaded'
-    toast 'Reloading...'
+  def recharge
+    recharge = $package.R::raw::electronics011
+    @player = MediaPlayer.create(self, recharge)
+    @player.start
+
+    @text_view.text = 'Recharged'
+    toast 'Recharging...'
+    rescue Exception => e
+      puts "#{ e } (#{ e.class } #{e.message} #{e.backtrace.inspect} )!"
   end
     
-end
-
-class AudioFocus
-  def onAudioFocusChange focusChange
-    puts "On focus change #{focusChange}"
-    nil
-  end
-
-  def toString
-    self.class.to_s
-  end
 end
