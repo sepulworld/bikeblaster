@@ -16,7 +16,7 @@ class BikeblasterActivity
     self.content_view =
         linear_layout :orientation => :vertical do
           @text_view = text_view :text => 'Bike Laser', :id => 42, :width => :match_parent,
-                                 :gravity => :center, :text_size => 48.0
+                                 :gravity => :center, :text_color => Java::android.graphics.Color::RED, :text_size => 48.0
           button :text => 'Bike Blaster Light Laser', :width => :match_parent, :id => 43, :on_click_listener => proc { fire_light_laser }
           button :text => 'Bike Blaster Heavy Laser', :width => :match_parent, :id => 43, :on_click_listener => proc { fire_heavy_laser }
           button :text => 'Bike Blaster Recharge', :width => :match_parent, :id => 44, :on_click_listener => proc { recharge }
