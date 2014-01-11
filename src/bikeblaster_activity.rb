@@ -42,7 +42,7 @@ class BikeblasterActivity
   end
   
   def fire_heavy_laser
-    heavy_laser  = $package.R::raw::megalazer
+    heavy_laser  = $package.R::raw::heavylaser2
     @player = MediaPlayer.create(self, heavy_laser)
     @player.start
 
