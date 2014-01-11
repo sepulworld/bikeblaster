@@ -11,7 +11,7 @@
 <ImageView
     android:layout_width="fill_parent" 
     android:layout_height="fill_parent"
-    android:src="@drawable/nintendozapper"  
+    android:src="@drawable/laserrifle"  
     android:scaleType="fitCenter"
     android:layout_weight="1"
 />
